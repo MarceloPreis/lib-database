@@ -1,0 +1,23 @@
+{
+    "name": "String",
+    "url": "String",
+    "porta": "String",
+    "user": "Sitrng",
+    "pass": "pass",
+    "sgbd": 1,
+    "tables":[
+        {
+            "table-name": "table-name",
+            "fields": [
+                {
+                    "field-name": "field-name",
+                    "field-type": "field-type"
+                },
+                {
+                    "field-name": "field-name",
+                    "field-type": "field-type"
+                }
+            ]
+        }
+    ]
+}
