@@ -1,0 +1,39 @@
+.container {
+    padding: 15px;
+    margin: 5px;
+    width: 30%;
+    border: 5px;
+    border-radius: 10px 20px;
+}
+
+.addRow {
+    margin-right: 10px;
+}
+
+.title {
+    font-size: large;
+    font-weight: bold;
+}
+
+.content-block{
+    margin-bottom: 30px
+}
+
+.footer {
+    position: fixed;
+    bottom:2%;
+}
+
+#tables {
+    display: flex;
+    /* justify-content: space-evenly; */
+    flex-wrap: wrap;
+}
+
+th {
+    text-align: center;
+}
+
+body {
+    padding: 2%;
+}

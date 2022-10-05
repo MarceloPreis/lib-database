@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="./style.css">
+    <title>Crie sua database</title>
+
+    <script src="classes/DataBase.js"></script>
+    <script src="classes/Table.js"></script>
+    <script src="classes/Conec.js"></script>
+
+    <script type="text/javascript">
+        function downloadConec() {
+            var name = document.getElementById("name").value;
+            var url = document.getElementById("url").value;
+            var porta = document.getElementById("porta").value;
+            var user = document.getElementById("user").value;
+            var sgbd = document.getElementById("sgbd").value;
+
+            const conec = new Conec(name, url, porta, user, sgbd);
+            download(JSON.stringify(conec), "conec.json", "text/plain")
+        }
+
+        function downloadTables() {
+            var db = new DataBase('oi');
+            var teste = document.getElementsByClassName("container");
+            Object.values(teste).map(function (container) {
+                var tableName = container.getElementsByClassName("tableName")[0].value;
+                const table = new Table(tableName);
+                var rows = container.getElementsByClassName("colRow");
+                console.log(rows)
+                Object.values(rows).map((row) => {
+                    var colName = row.getElementsByClassName("colName")[0].value;
+                    var colType = row.getElementsByClassName("colType")[0].value;
+                    table.columns.push({ 'colName': colName, 'colType': colType })
+                })
+                db.tables.push(table);
+            })
+            console.log(db)
+            // download(JSON.stringify(db), "database.json", "text/plain");
+        }
+
+        function download(content, fileName, contentType) {
+            const a = document.createElement("a");
+            const file = new Blob([content], { type: contentType });
+            a.href = URL.createObjectURL(file);
+            a.download = fileName;
+            a.click();
+        }
+
+        function createInput(inputId, inputclass = "form-control", placeholder = null) {
+            var input = document.createElement("input");
+            input.className = inputclass;
+            if (inputId)
+                input.id = inputId;
+            if (placeholder)
+                input.placeholder = placeholder;
+            return input;
+        }
+
+        function addContainer() {
+            var div = document.getElementById("tables");
+            var newDiv = document.createElement("div");
+            var input = createInput(null, "tableName");
+            newDiv.className = 'container';
+
+            var remove = document.createElement("a")
+            remove.href = "#js";
+            remove.innerHTML = '<i class="bi bi-trash"></i>';
+            remove.onclick = function (e) {
+                this.parentNode.parentNode.removeChild(this.parentNode)
+            };
+
+            const cols = ['Column Name', 'Column Type']
+            var table = document.createElement("table");
+            var thead = document.createElement("thead");
+            var tbody = document.createElement("tbody");
+            var tr = document.createElement("tr");
+            table.appendChild(thead);
+            table.appendChild(tbody);
+
+            cols.map(function (col) {
+                var th = document.createElement("th");
+                th.innerText = col;
+                tr.appendChild(th);
+            })
+
+            thead.appendChild(tr);
+
+            var addRow = document.createElement("a");
+            addRow.href = "#js";
+            addRow.className = "addRow";
+            addRow.innerHTML = '<i class="bi bi-plus-square"></i>';
+            addRow.onclick = function (e) {
+                var row = tbody.insertRow();
+                row.className = 'colRow';
+                var cell0 = row.insertCell(0);
+                var cell1 = row.insertCell(1);
+                cell0.appendChild(createInput(null, 'colName'));
+                cell1.appendChild(createInput(null, 'colType'))
+            }
+
+            newDiv.appendChild(input);
+            newDiv.appendChild(table);
+            newDiv.appendChild(addRow);
+            addRow.click();
+            newDiv.appendChild(remove);
+            div.appendChild(newDiv);
+        }
+    </script>
+</head>
+
+<body>
+    <div class="content-block">
+        <form action="" method="get">
+            <span class="title"> Informações de Conexão</span>
+            <hr>
+            <div class="row">
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label" for="name">Name</label>
+                        <input type="text" id="name" class="form-control" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label" for="url">URL</label>
+                        <input type="text" id="url" class="form-control" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col mb-2">
+                    <div class="form-outline">
+                        <label class="form-label" for="porta">Porta</label>
+                        <input type="text" id="porta" class="form-control" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label" for="user">User</label>
+                        <input type="text" id="user" class="form-control" />
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <label class="form-label" for="pass">Pass</label>
+                        <input type="text" id="pass" class="form-control" />
+                    </div>
+                </div>
+                <div class="col mb-2">
+                    <div class="form-outline">
+                        <label for="sgbd" class="form-label">Selecione SGBD: </label>
+                        <select name="sgbd" id="sgbd" class="form-control">
+                            <option value="1">MySQL</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="content-block">
+        <span class="title"> Tabelas do Banco</span>
+        <hr>
+        <div>
+            <button href=#js onclick="addContainer()" class="btn btn-secondary"><i class="bi bi-plus-square"></i>
+                Tabela</button>
+        </div>
+        <div id="tables"></div>
+        <div class="footer">
+            <button href="#js" onclick="downloadTables()" class="btn btn-primary"><i
+                    class="bi bi-arrow-down-square"></i>
+                Download</button>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
