@@ -4,6 +4,7 @@
     width: 30%;
     border: 5px;
     border-radius: 10px 20px;
+    background-color: #f1f1f1;
 }
 
 .addRow {
@@ -24,14 +25,23 @@
     bottom:2%;
 }
 
+.remove {
+    color: red;
+}
+
 #tables {
     display: flex;
     /* justify-content: space-evenly; */
     flex-wrap: wrap;
+    margin: 10px;
 }
 
 th {
     text-align: center;
+}
+
+table {
+    width: 100%;
 }
 
 body {

@@ -19,16 +19,15 @@
         function downloadConec() {
             var name = document.getElementById("name").value;
             var url = document.getElementById("url").value;
-            var porta = document.getElementById("porta").value;
             var user = document.getElementById("user").value;
             var sgbd = document.getElementById("sgbd").value;
 
-            const conec = new Conec(name, url, porta, user, sgbd);
+            const conec = new Conec(name, url, user, sgbd);
             download(JSON.stringify(conec), "conec.json", "text/plain")
         }
 
-        function downloadTables() {
-            var db = new DataBase('oi');
+        function downloadJSON() {
+            var db = new DataBase(document.getElementById("name").value);
             var teste = document.getElementsByClassName("container");
             Object.values(teste).map(function (container) {
                 var tableName = container.getElementsByClassName("tableName")[0].value;
@@ -42,8 +41,9 @@
                 })
                 db.tables.push(table);
             })
-            console.log(db)
-            // download(JSON.stringify(db), "database.json", "text/plain");
+            
+            downloadConec();
+            download(JSON.stringify(db), "database.json", "text/plain");
         }
 
         function download(content, fileName, contentType) {
@@ -54,9 +54,9 @@
             a.click();
         }
 
-        function createInput(inputId, inputclass = "form-control", placeholder = null) {
+        function createInput(inputId, inputclass, placeholder = null) {
             var input = document.createElement("input");
-            input.className = inputclass;
+            input.className = inputclass + " form-control";
             if (inputId)
                 input.id = inputId;
             if (placeholder)
@@ -64,13 +64,27 @@
             return input;
         }
 
+        function createSelect(id, opt = []){
+            var select = document.createElement("select");
+            select.id = id;
+
+            opt.forEach(key, value => {
+                var option = document.createElement("option");
+                option.value = key;
+                option.innerText = value;
+            });
+
+            return select;
+        }
+
         function addContainer() {
             var div = document.getElementById("tables");
             var newDiv = document.createElement("div");
-            var input = createInput(null, "tableName");
+            var input = createInput(null, "tableName", "Nome da Tabela");
             newDiv.className = 'container';
 
             var remove = document.createElement("a")
+            remove.className = "remove";
             remove.href = "#js";
             remove.innerHTML = '<i class="bi bi-trash"></i>';
             remove.onclick = function (e) {
@@ -102,7 +116,7 @@
                 row.className = 'colRow';
                 var cell0 = row.insertCell(0);
                 var cell1 = row.insertCell(1);
-                cell0.appendChild(createInput(null, 'colName'));
+                cell0.appendChild(createInput(null, 'colName '));
                 cell1.appendChild(createInput(null, 'colType'))
             }
 
@@ -136,25 +150,19 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col mb-2">
-                    <div class="form-outline">
-                        <label class="form-label" for="porta">Porta</label>
-                        <input type="text" id="porta" class="form-control" />
-                    </div>
-                </div>
-                <div class="col">
+                <div class="col mb-3">
                     <div class="form-outline">
                         <label class="form-label" for="user">User</label>
                         <input type="text" id="user" class="form-control" />
                     </div>
                 </div>
-                <div class="col">
+                <div class="col mb-3">
                     <div class="form-outline">
                         <label class="form-label" for="pass">Pass</label>
                         <input type="text" id="pass" class="form-control" />
                     </div>
                 </div>
-                <div class="col mb-2">
+                <div class="col mb-3">
                     <div class="form-outline">
                         <label for="sgbd" class="form-label">Selecione SGBD: </label>
                         <select name="sgbd" id="sgbd" class="form-control">
@@ -176,9 +184,7 @@
         </div>
         <div id="tables"></div>
         <div class="footer">
-            <button href="#js" onclick="downloadTables()" class="btn btn-primary"><i
-                    class="bi bi-arrow-down-square"></i>
-                Download</button>
+            <button href="#js" onclick="downloadJSON()" class="btn btn-primary"><i class="bi bi-arrow-down-square"></i> Download</button>
         </div>
     </div>
 

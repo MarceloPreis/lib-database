@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crie sua database</title>
+
+    <script>
+
+        const colTypeOptions = [
+            {
+                value: 1,
+                desc: 'int'
+            },
+            {
+                value: 2,
+                desc: 'varchar(255)'
+            },
+            {
+                value: 3,
+                desc: 'Date'
+            }
+        ]
+
+        const fields = [
+            {
+                label: 'Database Name',
+                id: 'database'
+            },
+            {
+                label: 'User Name',
+                id: 'user'
+            },
+            {
+                label: 'Senha',
+                id: 'pass'
+            },
+            {
+                label: 'DB URL',
+                id: 'url'
+            },
+            {
+                
+            }
+        ]
+
+        window.onload = function () {
+
+        }
+        
+
+
+    </script>
+</head>
+
+<body>
+    <form action="" method="get">
+        <label for="name">Name: </label>
+        <input type="text" id="name">
+        <label for="url">Url: </label>
+        <input type="text" id="url">
+        <label for="porta">Porta: </label>
+        <input type="text" id="porta">
+        <label for="user">User: </label>
+        <input type="text" id="user">
+        <label for="pass">Pass: </label>
+        <input type="text" id="pass">
+        <label for="sgbd">Selecione SGBD: </label>
+        <select name="sgbd" id="sgbd">
+            <option value="1">MySQL</option>
+        </select>
+        <button type="submit">Enviar</button>
+
+
+        <hr>
+        <a href=#js onclick="addContainer()">Add</a>
+        <div id="tables"></div>
+        <a href="#js" onclick="teste()">Teste</a>
+    </form>
+
+</body>
+
+</html>
