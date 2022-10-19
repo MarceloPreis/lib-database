@@ -1,5 +1,5 @@
 class Conec{
-    constructor(name, url, porta, user, pass, sgbd){
+    constructor(name, url, user, pass, sgbd, porta){
         this.name = name;
         this.url = url;
         this.porta = porta;
