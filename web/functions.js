@@ -4,8 +4,9 @@ function downloadConec() {
     var user = document.getElementById("user").value
     var pass = document.getElementById("pass").value
     var sgbd = document.getElementById("sgbd").value
+    var port = document.getElementById("port").value
 
-    const conec = new Conec(name, url, user, pass, sgbd)
+    const conec = new Conec(name, url, user, pass, sgbd, port)
     download(JSON.stringify(conec), "conec.json", "text/plain")
 }
 
